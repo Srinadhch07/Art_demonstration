@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Webpage with Sound</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+        .container {
+            position: relative;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: url('images/BlackBackground.jpg');
+            
+            animation: gradientBG 50s ease infinite;
+        }
+        @keyframes gradientBG {
+            0% {background-position: -50% 950%;}
+            50% {background-position: 500% 20%;}
+            100% {background-position: 100% -900%;}
+        }
+        .play-button {
+            padding: 15px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            border: none;
+            border-radius: 50px;
+            background-color: darkgrey;
+            color: white;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-top: 35%;
+            margin-left: 30px;
+        }
+        .play-button:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+        .play-button:active {
+            transform: scale(0.95);
+        }
+        .floating-shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+        .shape {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.5);
+            animation: float 20s infinite;
+            z-index: -1;
+        }
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-1000px) rotate(720deg);
+                opacity: 0;
+            }
+        }
+        a {
+            text-decoration: none;
+        }
+
+@media screen and (max-width: 800px) {
+
+            .container {
+            position: relative;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: url('images/Lockscreen.jpg');
+            background-repeat:repeat;
+            background-attachment: fixed;
+            
+            animation: gradientBG 45s ease infinite;
+        }
+        @keyframes gradientBG {
+            0% {background-position: 0% 50%;}
+            50% {background-position: 53% 20%;}
+            100% {background-position: 50% 50%;}
+        }
+        .play-button {
+            padding: 5px 19px;
+            font-size: 12px;
+            cursor: pointer;
+            border: none;
+            border-radius: 50px;
+            background-color: #4CAF50;
+            color: white;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-top: 130%;
+            margin-left:10px;
+        }
+
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a class="play-button" href="https://brunda1.odoo.com/" >Website</a>
+        <button class="play-button" onclick="playSound()" >Play Sound</button>
+        <a class="play-button" href="https://srinadhch07.github.io/Portfolio/" >PortFolio</a>
+        <div class="floating-shapes"></div>
+    </div>
+
+    <audio id="myAudio">
+        <source src="audio/never_say_goodbye.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        function playSound() {
+            var audio = document.getElementById("myAudio");
+            if (audio.paused) {
+                audio.play();
+            } else {
+                audio.pause();
+                audio.currentTime = 0;
+            }
+        }
+
+        function createShapes() {
+            const container = document.querySelector('.floating-shapes');
+            const shapes = ['circle', 'square', 'triangle'];
+            const colors = ['#FF9A9E', '#FAD0C4', '#FFECD2'];
+
+            for (let i = 0; i < 20; i++) {
+                const shape = document.createElement('div');
+                shape.classList.add('shape');
+                const randomShape = shapes[Math.floor(Math.random() * shapes.length)];
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                const size = Math.random() * 50 + 10;
+
+                shape.style.width = `${size}px`;
+                shape.style.height = `${size}px`;
+                shape.style.backgroundColor = randomColor;
+                shape.style.left = `${Math.random() * 100}%`;
+                shape.style.top = `${Math.random() * 100}%`;
+                shape.style.animationDuration = `${Math.random() * 10 + 10}s`;
+                shape.style.animationDelay = `${Math.random() * 5}s`;
+
+                if (randomShape === 'circle') {
+                    shape.style.borderRadius = '50%';
+                } else if (randomShape === 'triangle') {
+                    shape.style.width = '0';
+                    shape.style.height = '0';
+                    shape.style.borderLeft = `${size/2}px solid transparent`;
+                    shape.style.borderRight = `${size/2}px solid transparent`;
+                    shape.style.borderBottom = `${size}px solid ${randomColor}`;
+                    shape.style.backgroundColor = 'transparent';
+                }
+
+                container.appendChild(shape);
+            }
+        }
+
+        createShapes();
+    </script>
+</body>
+</html>
